@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.env
+run_output*.txt
+debug_counts.py
+excel_dump.txt
+r27_38_full.txt

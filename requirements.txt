@@ -1,0 +1,5 @@
+﻿# Lint / Rule Violation Metric Tests - R27 to R38
+# Python tool: pylint 4.0.6  (https://github.com/pylint-dev/pylint)
+pylint==4.0.6
+pytest>=8.0.0
+pytest-json-report>=1.5.0
