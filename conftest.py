@@ -23,7 +23,21 @@ import pytest
 BASE_DIR = Path(__file__).parent
 SAMPLE_DIR = BASE_DIR / "sample_code"
 PYLINTRC = BASE_DIR / ".pylintrc"
+PYLINTRC_SAMPLE = BASE_DIR / ".pylintrc-sample"
 PLUGIN_PATH = BASE_DIR / "custom_pylint_plugin.py"
+
+
+def _pick_rcfile(target: str | Path) -> Path:
+    """Return the appropriate rc-file for *target*.
+
+    Scans of sample_code/ must use the sample-specific rc (which has no
+    ignore-paths rule) so that violations are reported for test assertions.
+    All other scans use the main .pylintrc which suppresses sample_code/ paths,
+    keeping the main-codebase quality metrics clean.
+    """
+    if "sample_code" in str(target):
+        return PYLINTRC_SAMPLE if PYLINTRC_SAMPLE.exists() else PYLINTRC
+    return PYLINTRC
 
 
 # ---------------------------------------------------------------------------
@@ -45,8 +59,10 @@ def run_pylint(
         "--output-format=json",
         str(target),
     ]
-    if use_rcfile and PYLINTRC.exists():
-        cmd.extend(["--rcfile", str(PYLINTRC)])
+    if use_rcfile:
+        rcfile = _pick_rcfile(target)
+        if rcfile.exists():
+            cmd.extend(["--rcfile", str(rcfile)])
     if extra_args:
         cmd.extend(extra_args)
 
@@ -71,8 +87,10 @@ def run_pylint_with_exit_code(
         "--output-format=json",
         str(target),
     ]
-    if use_rcfile and PYLINTRC.exists():
-        cmd.extend(["--rcfile", str(PYLINTRC)])
+    if use_rcfile:
+        rcfile = _pick_rcfile(target)
+        if rcfile.exists():
+            cmd.extend(["--rcfile", str(rcfile)])
     if extra_args:
         cmd.extend(extra_args)
 

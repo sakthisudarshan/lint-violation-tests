@@ -1,6 +1,7 @@
 [MAIN]
 jobs=1
-ignore=sample_code,generate_metrics_excel.py,coverage_audit.py,debug_counts.py,root_cause_analysis.py,check_test_violations.py,check_main_violations.py
+ignore=sample_code,generate_metrics_excel.py,coverage_audit.py,debug_counts.py,root_cause_analysis.py,check_test_violations.py,check_main_violations.py,check_json.py
+ignore-paths=sample_code
 
 [MESSAGES CONTROL]
 disable=
