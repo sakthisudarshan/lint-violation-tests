@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import SAMPLE_DIR, run_pylint
 
 NAMING_SYMBOLS = {"invalid-name", "naming-convention-violation"}
 MAX_CONVENTION_RATE_PCT = 2.0
@@ -60,7 +59,7 @@ class TestNamingConventionDetection:
         """Clean module has zero invalid-name violations."""
         naming = _naming_violations(pylint_clean)
         assert len(naming) == 0, (
-            f"Clean code has naming violations: "
+            "Clean code has naming violations: "
             + str([(v.get("symbol"), v.get("message")) for v in naming])
         )
 

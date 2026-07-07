@@ -16,9 +16,7 @@ from __future__ import annotations
 import configparser
 from pathlib import Path
 
-import pytest
-
-from conftest import BASE_DIR, PYLINTRC
+from conftest import PYLINTRC
 
 REQUIRED_SECTIONS = {"MAIN", "MESSAGES CONTROL", "FORMAT", "DESIGN"}
 REQUIRED_FORMAT_KEYS = {"max-line-length"}
@@ -141,4 +139,3 @@ class TestConfigStandardizationFormula:
         assert max_line == "100", (
             f"Expected max-line-length=100, got '{max_line}'"
         )
-

@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pytest
 
-from conftest import SAMPLE_DIR, count_suppression_comments, run_pylint
+from conftest import SAMPLE_DIR, count_suppression_comments
 
 MAX_FALSE_POSITIVE_RATE_PCT = 10.0
 _DISABLE_RE = re.compile(r"#\s*pylint\s*:\s*disable\s*=", re.IGNORECASE)
@@ -106,4 +106,3 @@ class TestAccuracyTuningFormula:
             assert rate <= MAX_FALSE_POSITIVE_RATE_PCT
         else:
             assert rate > MAX_FALSE_POSITIVE_RATE_PCT
-

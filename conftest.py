@@ -11,6 +11,7 @@ import json
 import re
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -165,7 +166,6 @@ def compute_severity_score(violations: list[dict]) -> float:
 
 def compute_hotfile_score(violations: list[dict]) -> int:
     """R33: Hotfile Score = Files(>10 viols)*15 + Files(5-10 viols)*5."""
-    from collections import Counter
     counts = Counter(v.get("path", v.get("module", "unknown")) for v in violations)
     hot = sum(1 for c in counts.values() if c > 10)
     amber = sum(1 for c in counts.values() if 5 <= c <= 10)

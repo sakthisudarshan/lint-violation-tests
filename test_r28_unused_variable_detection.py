@@ -16,9 +16,7 @@ from __future__ import annotations
 import pytest
 
 from conftest import (
-    SAMPLE_DIR,
     compute_dead_allocation_pct,
-    run_pylint,
 )
 
 UNUSED_SYMBOLS = {"unused-variable", "unused-import", "unused-argument"}
@@ -47,7 +45,7 @@ class TestUnusedVariableDetection:
         """Clean module has zero unused-variable/import/argument violations."""
         detected = [v for v in pylint_clean if v.get("symbol") in UNUSED_SYMBOLS]
         assert len(detected) == 0, (
-            f"Clean code unexpectedly has unused violations: "
+            "Clean code unexpectedly has unused violations: "
             + str([v.get("symbol") for v in detected])
         )
 

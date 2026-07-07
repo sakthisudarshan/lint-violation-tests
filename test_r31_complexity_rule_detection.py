@@ -13,11 +13,7 @@ Frequency: Every Commit / PR
 """
 from __future__ import annotations
 
-from collections import Counter
-
 import pytest
-
-from conftest import SAMPLE_DIR, run_pylint
 
 COMPLEXITY_SYMBOLS = {
     "too-many-branches",       # R0912
@@ -71,7 +67,7 @@ class TestComplexityRuleDetection:
         """Clean module has no complexity-related violations."""
         comp = _complexity_violations(pylint_clean)
         assert len(comp) == 0, (
-            f"Clean code has complexity violations: "
+            "Clean code has complexity violations: "
             + str([(v.get("symbol"), v.get("obj")) for v in comp])
         )
 

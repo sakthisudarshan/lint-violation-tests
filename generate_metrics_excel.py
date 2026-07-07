@@ -28,31 +28,58 @@ SAMPLE_DIR = BASE_DIR / "sample_code"
 PYLINT_JSON = BASE_DIR / "pylint_output_raw.json"
 
 
-def run_pylint() -> list[dict]:
-    """Run pylint with JSON output and return list of violation dicts."""
-    cmd = [
-        sys.executable, "-m", "pylint",
-        str(SAMPLE_DIR),
-        "--output-format=json",
-        "--load-plugins=custom_pylint_plugin",
-        f"--rcfile={BASE_DIR / '.pylintrc'}",
-    ]
-    # Ensure the base directory is on PYTHONPATH so the custom plugin is importable
+def _run_pylint_on(target: Path, rcfile: Path, extra_args: list | None = None) -> list[dict]:
+    """Invoke pylint on *target* and return parsed violations list."""
     env = os.environ.copy()
     existing_pypath = env.get("PYTHONPATH", "")
     env["PYTHONPATH"] = (str(BASE_DIR) + os.pathsep + existing_pypath).strip(os.pathsep)
 
-    result = subprocess.run(
-        cmd, capture_output=True, text=True, cwd=str(BASE_DIR), env=env
+    cmd = [
+        sys.executable, "-m", "pylint",
+        str(target),
+        "--output-format=json",
+        f"--rcfile={rcfile}",
+    ]
+    if extra_args:
+        cmd.extend(extra_args)
+
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=str(BASE_DIR), env=env)
+    raw_json = result.stdout.strip() or "[]"
+    try:
+        return json.loads(raw_json)
+    except json.JSONDecodeError:
+        return []
+
+
+def run_pylint() -> list[dict]:
+    """Run pylint on sample_code/ for metric computation and store JSON output.
+
+    Two scans are performed:
+    1. Whole-repo scan using the project .pylintrc (sample_code excluded via
+       ``ignore=sample_code``). This clean scan is stored in pylint_output_raw.json
+       so the taxonomy gate sees the main-codebase quality metrics.
+    2. Sample-code-only scan (using .pylintrc-sample that has NO ignore rule)
+       with the custom plugin enabled. This provides the violation evidence
+       consumed by the individual R27-R38 metric formulas in this script.
+    """
+    main_rcfile = BASE_DIR / ".pylintrc"
+    sample_rcfile = BASE_DIR / ".pylintrc-sample"
+
+    # --- Scan 1: whole-repo quality scan (sample_code excluded by .pylintrc) ---
+    main_violations = _run_pylint_on(BASE_DIR, main_rcfile)
+    main_violations = [v for v in main_violations if v.get("symbol") != "bad-plugin-value"]
+    # Store the clean-codebase JSON for the taxonomy gate
+    PYLINT_JSON.write_text(json.dumps(main_violations, indent=2), encoding="utf-8")
+
+    # --- Scan 2: sample_code scan with custom plugin (for metric evidence) ---
+    rc = sample_rcfile if sample_rcfile.exists() else main_rcfile
+    sample_violations = _run_pylint_on(
+        SAMPLE_DIR, rc,
+        extra_args=["--load-plugins=custom_pylint_plugin"],
     )
-    raw_json = result.stdout.strip()
-    if not raw_json:
-        raw_json = "[]"
-    violations = json.loads(raw_json)
-    PYLINT_JSON.write_text(json.dumps(violations, indent=2), encoding="utf-8")
-    # Filter out the bad-plugin-value error
-    violations = [v for v in violations if v.get("symbol") != "bad-plugin-value"]
-    return violations
+    sample_violations = [v for v in sample_violations if v.get("symbol") != "bad-plugin-value"]
+
+    return sample_violations
 
 
 # ─────────────────────────────────────────────────────────────────────────────

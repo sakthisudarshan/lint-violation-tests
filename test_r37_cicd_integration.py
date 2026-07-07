@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import SAMPLE_DIR, bucket_violations, run_pylint_with_exit_code
+from conftest import SAMPLE_DIR, run_pylint_with_exit_code
 
 # Gate rule: builds fail when exit code has bit 1 (fatal) or bit 2 (error) set
 ERROR_EXIT_BITS = 0b00000011  # bits 1 and 2

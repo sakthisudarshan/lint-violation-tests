@@ -17,7 +17,7 @@ from collections import Counter
 
 import pytest
 
-from conftest import SAMPLE_DIR, compute_hotfile_score, run_pylint
+from conftest import compute_hotfile_score
 
 MAX_RED_FILES = 0     # files with > 10 violations
 MAX_AMBER_FILES = 5   # files with 5-10 violations

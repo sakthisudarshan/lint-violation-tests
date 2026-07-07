@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import SAMPLE_DIR, run_pylint
 
 MIN_REPORT_COVERAGE_PCT = 95.0
 

@@ -10,3 +10,9 @@ run_output*.txt
 debug_counts.py
 excel_dump.txt
 r27_38_full.txt
+root_cause_analysis.py
+check_test_violations.py
+check_main_violations.py
+check_json.py
+test_violations.json
+coverage_audit_result.txt

@@ -13,8 +13,6 @@ Frequency: Every Commit / PR
 """
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
 from conftest import (
@@ -22,7 +20,6 @@ from conftest import (
     bucket_violations,
     compute_violation_density,
     count_loc,
-    run_pylint,
 )
 
 MAX_WARNINGS_PER_KLOC = 10
@@ -93,7 +90,7 @@ class TestViolationDensityOnSampleCode:
         """Every violation record includes type, line, symbol and message."""
         required = {"type", "line", "symbol", "message"}
         for v in pylint_violation_density:
-            assert not (required - v.keys())
+            assert required.issubset(v.keys())
 
     def test_normalised_score_in_valid_range(self, pylint_violation_density):
         """Normalised score MAX(0, 100-(Errors*5+Warnings)) stays in [0,100]."""

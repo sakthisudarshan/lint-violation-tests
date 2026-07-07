@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import SAMPLE_DIR, count_loc, run_pylint
+from conftest import SAMPLE_DIR, count_loc
 
 STYLE_SYMBOLS = {
     "line-too-long",          # C0301

@@ -78,7 +78,7 @@ class TestCustomPluginLoading:
             pytest.skip("Plugin file not present")
         sys.path.insert(0, str(BASE_DIR))
         try:
-            import custom_pylint_plugin as plugin  # noqa: PLC0415
+            import custom_pylint_plugin as plugin  # pylint: disable=import-outside-toplevel
             assert hasattr(plugin, "register"), "Plugin must expose a register() function"
         finally:
             sys.path.pop(0)
@@ -89,7 +89,7 @@ class TestCustomPluginLoading:
             pytest.skip("Plugin file not present")
         sys.path.insert(0, str(BASE_DIR))
         try:
-            import custom_pylint_plugin as plugin  # noqa: PLC0415
+            import custom_pylint_plugin as plugin  # pylint: disable=import-outside-toplevel
             assert callable(plugin.register)
         finally:
             sys.path.pop(0)
@@ -150,4 +150,3 @@ class TestProjectEnforcementFormula:
         viols = [{"symbol": CUSTOM_SYMBOL}]
         rate = compute_custom_rule_pass_rate(viols, total_checks=1)
         assert rate < 100.0, "Even 1 custom rule violation must fail the threshold"
-
