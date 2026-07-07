@@ -29,3 +29,7 @@ class DataProcessor:
     def load(self, source: str) -> None:
         """Load records — stores source reference."""
         self.records = [source]
+
+    def count(self) -> int:
+        """Return the number of loaded records."""
+        return len(self.records)
