@@ -31,9 +31,5 @@ class GoodClass:
     """Properly named class."""
 
     def good_method(self) -> int:
-        """First clean method."""
+        """Primary method."""
         return 0
-
-    def describe(self) -> str:
-        """Second clean method — satisfies pylint min-public-methods."""
-        return "GoodClass"
