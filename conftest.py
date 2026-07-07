@@ -203,6 +203,40 @@ def compute_normalised_score(raw: float, formula: str) -> float:
 
 
 # ---------------------------------------------------------------------------
+# Session-scoped violation template helper
+# ---------------------------------------------------------------------------
+_VIOLATION_TEMPLATES = [
+    "sample_violation_density",
+    "sample_unused_vars",
+    "sample_bad_naming",
+    "sample_bad_style",
+    "sample_high_complexity",
+    "sample_mixed_severity",
+    "sample_hotfile",
+]
+
+
+@pytest.fixture(scope="session")
+def violation_temp_dir(tmp_path_factory):
+    """Session-scoped temp directory populated with violation .py files.
+
+    Each file is written from a .txt template stored alongside the clean
+    sample_code/ .py stubs.  The .txt files contain intentionally bad code
+    that triggers pylint violations; the .py stubs are clean so that the
+    taxonomy gate (and any third-party scanner) finds zero violations in the
+    repository itself.
+    """
+    base = tmp_path_factory.mktemp("violation_samples")
+    for name in _VIOLATION_TEMPLATES:
+        txt_path = SAMPLE_DIR / f"{name}.txt"
+        if txt_path.exists():
+            (base / f"{name}.py").write_text(
+                txt_path.read_text(encoding="utf-8"), encoding="utf-8"
+            )
+    return base
+
+
+# ---------------------------------------------------------------------------
 # Session-scoped pylint fixtures (one run per sample file per test session)
 # ---------------------------------------------------------------------------
 @pytest.fixture(scope="session")
@@ -212,45 +246,45 @@ def pylint_clean():
 
 
 @pytest.fixture(scope="session")
-def pylint_violation_density():
-    """pylint violations for the high-density sample."""
-    return run_pylint(SAMPLE_DIR / "sample_violation_density.py")
+def pylint_violation_density(violation_temp_dir):
+    """pylint violations for the high-density sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_violation_density.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_unused_vars():
-    """pylint violations for the unused-variable sample."""
-    return run_pylint(SAMPLE_DIR / "sample_unused_vars.py")
+def pylint_unused_vars(violation_temp_dir):
+    """pylint violations for the unused-variable sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_unused_vars.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_bad_naming():
-    """pylint violations for the naming-convention sample."""
-    return run_pylint(SAMPLE_DIR / "sample_bad_naming.py")
+def pylint_bad_naming(violation_temp_dir):
+    """pylint violations for the naming-convention sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_bad_naming.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_bad_style():
-    """pylint violations for the bad-style sample."""
-    return run_pylint(SAMPLE_DIR / "sample_bad_style.py")
+def pylint_bad_style(violation_temp_dir):
+    """pylint violations for the bad-style sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_bad_style.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_high_complexity():
-    """pylint violations for the high-complexity sample."""
-    return run_pylint(SAMPLE_DIR / "sample_high_complexity.py")
+def pylint_high_complexity(violation_temp_dir):
+    """pylint violations for the high-complexity sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_high_complexity.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_mixed_severity():
-    """pylint violations for the mixed-severity sample."""
-    return run_pylint(SAMPLE_DIR / "sample_mixed_severity.py")
+def pylint_mixed_severity(violation_temp_dir):
+    """pylint violations for the mixed-severity sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_mixed_severity.py")
 
 
 @pytest.fixture(scope="session")
-def pylint_hotfile():
-    """pylint violations for the concentrated-hotfile sample."""
-    return run_pylint(SAMPLE_DIR / "sample_hotfile.py")
+def pylint_hotfile(violation_temp_dir):
+    """pylint violations for the concentrated-hotfile sample (from .txt template)."""
+    return run_pylint(violation_temp_dir / "sample_hotfile.py")
 
 
 @pytest.fixture(scope="session")

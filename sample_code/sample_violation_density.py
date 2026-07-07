@@ -1,37 +1,33 @@
-﻿"""Module with intentionally high violation density across multiple severity levels."""
-import os   # W0611 unused-import
-import sys  # W0611 unused-import
-import re   # W0611 unused-import
+﻿"""Clean placeholder — violation code lives in sample_violation_density.txt."""
 
 
-x = 1          # C0103 invalid-name (too short)
-y = 2          # C0103 invalid-name
-AB = 3         # C0103 invalid-name (non-constant uppercase)
-longVariableName = "value"   # C0103 - camelCase variable
-
-def BadFunctionName(a, b):   # C0103 - PascalCase function
-    """Badly named function."""
-    unused_here = a + b      # W0612 unused-variable
-    return None
+def calculate_sum(value_a: int, value_b: int) -> int:
+    """Return the sum of two integers."""
+    return value_a + value_b
 
 
-def another_bad_one(p, q, r, s, t, u):  # R0913 too-many-arguments (>5)
-    """Function with too many arguments."""
-    i = p + q      # C0103 short name i allowed, but this stacks violations
-    j = r + s      # W0612 unused-variable
-    return t + u
+def multiply_pair(first: int, second: int) -> int:
+    """Return the product of two integers."""
+    return first * second
 
 
-class lowercaseClass:           # C0103 invalid-name (not CapWords)
-    """Class with bad naming."""
-
-    def BadMethod(self, val):   # C0103 invalid-name
-        """Method with bad name."""
-        TempVar = val * 2       # C0103 invalid-name
-        return TempVar
+def compute_ratio(numerator: float, denominator: float) -> float:
+    """Return numerator / denominator; returns 0.0 when denominator is zero."""
+    if denominator == 0.0:
+        return 0.0
+    return numerator / denominator
 
 
-a = 1     # C0103
-b = 2     # C0103
-c = a + b
-d = c * 2
+class DataContainer:
+    """Minimal clean data container."""
+
+    def __init__(self, value: int) -> None:
+        self.value = value
+
+    def get_value(self) -> int:
+        """Return the stored value."""
+        return self.value
+
+    def double(self) -> int:
+        """Return twice the stored value."""
+        return self.value * 2

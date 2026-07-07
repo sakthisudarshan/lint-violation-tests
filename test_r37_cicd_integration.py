@@ -52,11 +52,17 @@ class TestPylintGateBehaviour:
             f"Clean code gate failed with exit code {code} (bits: {bin(code)})"
         )
 
-    def test_error_code_triggers_gate_failure(self):
-        """Sample with error-level violations: gate must fail."""
-        _, code = run_pylint_with_exit_code(SAMPLE_DIR / "sample_mixed_severity.py")
+    def test_error_code_triggers_gate_failure(self, tmp_path):
+        """Code with an undefined-variable error causes gate failure."""
+        error_file = tmp_path / "sample_with_error.py"
+        error_file.write_text(
+            '"""Module with an intentional error-level violation."""\n'
+            'RESULT = undefined_variable  # E0602 undefined-variable\n',
+            encoding="utf-8",
+        )
+        _, code = run_pylint_with_exit_code(error_file)
         assert not gate_passes(code), (
-            f"Expected gate failure for mixed-severity code, got exit code {code}"
+            f"Expected gate failure for error-level code, got exit code {code}"
         )
 
     def test_convention_only_code_can_pass_gate(self, pylint_bad_naming):

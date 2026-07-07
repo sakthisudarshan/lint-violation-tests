@@ -1,24 +1,24 @@
 ﻿"""Module demonstrating inline suppression comments (pylint: disable)."""
-import os   # pylint: disable=unused-import   <- suppressed W0611
-import sys  # pylint: disable=unused-import   <- suppressed W0611
+import os   # pylint: disable=unused-import
+import sys  # pylint: disable=unused-import
 
 
 def function_with_suppressed_violation():
     """Function where violations are suppressed via inline comments."""
-    x = 1  # pylint: disable=invalid-name    <- suppressed C0103
-    unused = "never used"  # pylint: disable=unused-variable  <- suppressed W0612
+    x = 1  # pylint: disable=invalid-name
+    unused = "never used"  # pylint: disable=unused-variable
     return x + 1
 
 
-def another_suppressed_function(A, B):   # pylint: disable=invalid-name
+def another_suppressed_function(arg_a, arg_b):  # pylint: disable=invalid-name
     """Arguments suppressed."""
-    result = A + B
+    result = arg_a + arg_b
     return result
 
 
 # pylint: disable=invalid-name
-PascalVar = 10   # suppressed - no violation reported
-camelVar = 20    # suppressed
+PascalVar = 10
+camelVar = 20
 # pylint: enable=invalid-name
 
 

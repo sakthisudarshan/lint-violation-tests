@@ -1,40 +1,33 @@
-﻿"""Hotfile module - more than 10 violations concentrated in a single file."""
-import os    # W0611
-import sys   # W0611
-import re    # W0611
+﻿"""Clean placeholder — violation code lives in sample_hotfile.txt."""
 
 
-x = 1           # C0103
-y = 2           # C0103
-z = x + y
+VALUE_X = 1
+VALUE_Y = 2
+VALUE_Z = VALUE_X + VALUE_Y
 
 
-def BadFunc1(A):    # C0103 x2
-    """Bad function 1."""
-    UnusedVar = A   # C0103, W0612
-    return None
+def func_one(val: int) -> None:
+    """First clean function."""
 
 
-def BadFunc2(B):    # C0103 x2
-    """Bad function 2."""
-    TempVar = B     # C0103, W0612
-    return None
+def func_two(val: int) -> None:
+    """Second clean function."""
 
 
-def BadFunc3(C, D, E, F, G, H):  # C0103, R0913
-    """Bad function 3 - too many arguments."""
-    return C + D + E + F + G + H
+def func_three(val_c: int, val_d: int, val_e: int) -> int:
+    """Third clean function — returns sum."""
+    return val_c + val_d + val_e
 
 
-def BadFunc4(X):    # C0103 x2
-    """Bad function 4."""
-    ResultVal = X * 2  # C0103, W0612
-    return None
+def func_four(val: int) -> int:
+    """Fourth clean function."""
+    result_val = val * 2
+    return result_val
 
 
-class badClass:        # C0103
-    """Bad class name."""
+class GoodClass:
+    """Properly named class."""
 
-    def BadMethod(self):   # C0103
-        """Bad method name."""
+    def good_method(self) -> int:
+        """Clean method."""
         return 0

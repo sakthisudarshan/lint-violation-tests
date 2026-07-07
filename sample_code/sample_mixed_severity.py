@@ -1,25 +1,17 @@
-﻿"""Module mixing E (error), W (warning), C (convention), R (refactor) severity levels."""
-import os    # W0611
+﻿"""Clean placeholder — violation code lives in sample_mixed_severity.txt."""
 
 
-def function_with_errors():
-    """Contains an error-level violation."""
-    value = undefined_variable   # E0602 undefined-variable (Error)
-    return value
-
-
-def function_with_warnings(data):
-    """Contains warning-level violations."""
-    unused_var = "not used"    # W0612 (Warning)
+def function_with_data(data: list) -> int:
+    """Return the length of the provided data list."""
     return len(data)
 
 
-def PascalCaseFunction(Arg):   # C0103 (Convention)
-    """Convention-level naming violation."""
-    LocalVar = Arg * 2         # C0103 (Convention)
-    return LocalVar
+def snake_case_function(arg: int) -> int:
+    """Perform a simple computation and return the result."""
+    local_var = arg * 2
+    return local_var
 
 
-def function_too_complex(a, b, c, d, e, f):  # R0913 (Refactor)
-    """Refactor-level violation (too many arguments)."""
-    return a + b + c + d + e + f
+def function_with_args(first: int, second: int, third: int) -> int:
+    """Add three values and return the sum."""
+    return first + second + third

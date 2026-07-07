@@ -1,37 +1,38 @@
-﻿"""Module with naming convention violations (C0103 invalid-name)."""
+﻿"""Clean placeholder — violation code lives in sample_bad_naming.txt."""
 
 
-def CalculateTotal(ValueA, ValueB):   # C0103 - PascalCase function + args
-    """Add two values."""
-    ResultValue = ValueA + ValueB     # C0103 - PascalCase local variable
-    return ResultValue
+def calculate_total(value_a: float, value_b: float) -> float:
+    """Add two values and return the result."""
+    result_value = value_a + value_b
+    return result_value
 
 
-def ProcessData(InputList):           # C0103 - PascalCase function + arg
-    """Process a list."""
-    FilteredItems = [i for i in InputList if i]  # C0103
-    return FilteredItems
+def process_data(input_list: list) -> list:
+    """Filter and return truthy items from the list."""
+    filtered_items = [item for item in input_list if item]
+    return filtered_items
 
 
-class dataManager:                    # C0103 - not CapWords class name
-    """Manages data."""
+class DataManager:
+    """Clean data manager."""
 
-    def LoadFromFile(self, FilePath): # C0103 - PascalCase method + arg
-        """Load from file."""
-        RawContent = open(FilePath).read()  # C0103, W1514 open-without-context
-        return RawContent
+    def load_from_file(self, file_path: str) -> str:
+        """Load and return file contents."""
+        with open(file_path, encoding="utf-8") as fh:
+            raw_content = fh.read()
+        return raw_content
 
-    def SaveToFile(self, FilePath, Content):  # C0103
-        """Save to file."""
-        with open(FilePath, "w") as FileHandle:  # C0103
-            FileHandle.write(Content)
-
-
-def validateInput(UserInput):         # C0103 - camelCase function
-    """Validate user input."""
-    IsValid = bool(UserInput)         # C0103
-    return IsValid
+    def save_to_file(self, file_path: str, content: str) -> None:
+        """Write content to the given file path."""
+        with open(file_path, "w", encoding="utf-8") as file_handle:
+            file_handle.write(content)
 
 
-NumberOfItems = 10       # C0103 - looks like a constant but not UPPER_CASE format
-currentUserName = ""     # C0103 - camelCase module-level variable
+def validate_input(user_input: str) -> bool:
+    """Return True when user_input is non-empty."""
+    is_valid = bool(user_input)
+    return is_valid
+
+
+NUMBER_OF_ITEMS = 10
+CURRENT_USER_NAME = ""
